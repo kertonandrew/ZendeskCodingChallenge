@@ -1,13 +1,7 @@
-/*!
- * gulp
- * $ npm install gulp-ruby-sass gulp-autoprefixer gulp-cssnano gulp-jshint gulp-concat gulp-uglify gulp-imagemin gulp-notify gulp-rename gulp-livereload gulp-cache del --save-dev
- */
-
 // Load plugins
 var gulp = require('gulp'),
 	autoprefixer = require('gulp-autoprefixer'),
 	cssnano = require('gulp-cssnano'),
-	jshint = require('gulp-jshint'),
 	uglify = require('gulp-uglify'),
 	imagemin = require('gulp-imagemin'),
 	rename = require('gulp-rename'),
@@ -19,7 +13,8 @@ var gulp = require('gulp'),
 
 // Styles
 gulp.task('styles', function() {
-	return autoprefixer('last 2 version')
+	return .pipe(gulp.src('client/dist/styles/**/*.css'))
+		.pipe(autoprefixer('last 2 version'))
 		.pipe(gulp.dest('client/dist/styles'))
 		.pipe(rename({
 			suffix: '.min'
@@ -39,9 +34,9 @@ gulp.task('scripts', function() {
 		.pipe(rename({
 			suffix: '.min'
 		}))
-		.pipe(uglify({
-			mangle: false
-		}))
+		// .pipe(uglify({
+		// 	mangle: false
+		// }))
 		.pipe(gulp.dest('client/dist/scripts'))
 		.pipe(notify({
 			message: 'Scripts task complete'
@@ -89,6 +84,5 @@ gulp.task('watch', function() {
 	gulp.watch('client/src/scripts/**/*.js', ['scripts']);
 	gulp.watch('client/src/images/**/*', ['images']);
 	gulp.watch('client/src/views/**/*', ['views']);
-	// Watch any files in dist/, reload on change
-	gulp.watch(['client/dist/**']).on('change', livereload.changed);
+
 });

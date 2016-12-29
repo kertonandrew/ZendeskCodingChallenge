@@ -1,4 +1,5 @@
 const https = require('https');
+const request = require('request');
 
 let options = {
 	protocol: 'https:',
@@ -9,48 +10,64 @@ let options = {
 	}
 };
 
-exports.tickets = (req, res) => {
+exports.ticket = (req, res) => {
 	options.path = '/api/v2/tickets.json';
+	https.get(options, (res) => {
 
-	let request = https.get(options, (res) => {
-		console.log('statusCode:', res.statusCode);
-		console.log('headers:', res.headers);
+		const statusCode = res.statusCode;
+		const contentType = res.headers['content-type'];
 
-		let data = '';
+		let error;
+		if (statusCode !== 200) {
+			error = new Error(`Request Failed.\n` +
+				`Status Code: ${statusCode}`);
+		} else if (!/^application\/json/.test(contentType)) {
+			error = new Error(`Invalid content-type.\n` +
+				`Expected application/json but received ${contentType}`);
+		}
+		if (error) {
+			console.log(error.message);
+			// consume response data to free up memory
+			res.resume();
+			return;
+		}
 
-		res.on('data', (d) => {
-			data += d;
+		res.setEncoding('utf8');
+		let rawData = '';
+		res.on('data', (chunk) => rawData += chunk);
+		res.on('end', () => {
+			try {
+				let parsedData = JSON.parse(rawData);
+				console.log(parsedData);
+			} catch (e) {
+				console.log(e.message);
+			}
 		});
-
-		res.on('end', (s) => {
-			res.json = JSON.parse(data);
-			console.log(res.json);
-		});
-
 	}).on('error', (e) => {
-		console.error(e);
-	})
+		console.log(`Got error: ${e.message}`);
+	});
 };
 
-exports.ticket = (req, res) => {
+exports.tickets = (req, res) => {
 	options.path = '/api/v2/tickets/96.json';
+	let request = https.request(options, (res) => {
 
-	let request = https.get(options, (res) => {
-		console.log('statusCode:', res.statusCode);
-		console.log('headers:', res.headers);
-
-		let data = '';
-
-		res.on('data', (d) => {
-			data += d;
+		console.log(`STATUS: ${res.statusCode}`);
+		console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+		res.setEncoding('utf8');
+		res.on('data', (chunk) => {
+			console.log(`BODY: ${chunk}`);
 		});
-
-		res.on('end', (s) => {
-			res.json = JSON.parse(data);
-			console.log(res.json);
+		res.on('end', () => {
+			console.log('No more data in response.');
 		});
+	});
 
-	}).on('error', (e) => {
-		console.error(e);
-	})
+	request.on('error', (e) => {
+		console.log(`problem with request: ${e.message}`);
+	});
+
+	// write data to request body
+	request.write(postData);
+	request.end();
 };

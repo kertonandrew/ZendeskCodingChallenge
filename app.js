@@ -1,12 +1,22 @@
 //Module dependencies
-let express = require('express'),
+const express = require('express'),
 	bodyParser = require('body-parser'),
 	methodOverride = require('method-override'),
 	errorHandler = require('errorhandler'),
 	morgan = require('morgan'),
-	api = require('./api.js'),
 	http = require('http'),
-	path = require('path');
+	api = require('./api.js'),
+	path = require('path'),
+	https = require('https');
+
+let options = {
+	protocol: 'https:',
+	host: 'kertonandrew.zendesk.com',
+	auth: 'kerton.andrew@gmail.com:398wHxebWb3F',
+	headers: {
+		'Content-Type': 'application/json'
+	}
+};
 
 let app = module.exports = express();
 
@@ -36,9 +46,46 @@ app.use('/images', express.static(__dirname + '/client/dist/images'));
 app.use('/styles', express.static(__dirname + '/client/dist/styles'));
 app.use('/views', express.static(__dirname + '/client/dist/views'));
 
+
 // JSON API
-app.get('/api/ticket', api.ticket);
-app.get('/api/tickets', api.tickets);
+app.get('/api/tickets', (req, res) => {
+	options.path = '/api/v2/tickets.json';
+	https.get(options, (result) => {
+
+		const statusCode = result.statusCode;
+		const contentType = result.headers['content-type'];
+
+		let error;
+		if (statusCode !== 200) {
+			error = new Error(`Request Failed.\n` +
+				`Status Code: ${statusCode}`);
+		} else if (!/^application\/json/.test(contentType)) {
+			error = new Error(`Invalid content-type.\n` +
+				`Expected application/json but received ${contentType}`);
+		}
+		if (error) {
+			console.log(error.message);
+			// consume response data to free up memory
+			result.resume();
+			return;
+		}
+
+		result.setEncoding('utf8');
+		let rawData = '';
+		result.on('data', (chunk) => rawData += chunk);
+		result.on('end', () => {
+			try {
+				let parsedData = JSON.parse(rawData);
+				console.log(parsedData);
+				res.send(parsedData);
+			} catch (e) {
+				console.log(e.message);
+			}
+		});
+	}).on('error', (e) => {
+		console.log(`Got error: ${e.message}`);
+	});
+});
 
 app.get('/', (req, res) => {
 	res.sendFile(path.join(__dirname + '/index.html'));
@@ -52,7 +99,6 @@ app.get('*', (req, res, next) => {
 });
 
 // Start Server
-
 http.createServer(app).listen(app.get('port'), () => {
 	console.log('Express server listening on port ' + app.get('port'));
 });
