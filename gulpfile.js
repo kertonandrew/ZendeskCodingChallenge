@@ -13,7 +13,7 @@ var gulp = require('gulp'),
 
 // Styles
 gulp.task('styles', function() {
-	return .pipe(gulp.src('client/dist/styles/**/*.css'))
+	return gulp.src('client/src/styles/**/*.css')
 		.pipe(autoprefixer('last 2 version'))
 		.pipe(gulp.dest('client/dist/styles'))
 		.pipe(rename({
@@ -80,7 +80,7 @@ gulp.task('default', ['clean'], function() {
 gulp.task('watch', function() {
 	// Create LiveReload server
 	livereload.listen();
-	gulp.watch('client/src/styles/**/*.scss', ['styles']);
+	gulp.watch('client/src/styles/**/*.css', ['styles']);
 	gulp.watch('client/src/scripts/**/*.js', ['scripts']);
 	gulp.watch('client/src/images/**/*', ['images']);
 	gulp.watch('client/src/views/**/*', ['views']);

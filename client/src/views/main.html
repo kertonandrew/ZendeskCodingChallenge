@@ -1,7 +1,15 @@
-<li>
-	<ol ng-repeat='ticket in tickets'>
-		<h3>{{ticket.subject}}</h3>
-		<p>Last updated: {{ticket.updated_at}}</p>
-		<p>{{ticket.description}}</p>
+<div class='col-md-1'></div>
+<div id='loader' class='col-md-10'></div>
+<div id='tickets' class='col-md-10 hidden'>
+	<ol>
+		<li ng-repeat='ticket in tickets'>
+			<div>
+				<h3>{{ticket.subject}}</h3>
+				<p>Last updated: {{ticket.updated_at}}</p>
+				<p>{{ticket.description}}</p>
+			</div>
+		</li>
 	</ol>
-</li>
+</div>
+<div class='col-md-1'></div>
+</div>
