@@ -5,7 +5,6 @@
 
 // Load plugins
 var gulp = require('gulp'),
-	sass = require('gulp-ruby-sass'),
 	autoprefixer = require('gulp-autoprefixer'),
 	cssnano = require('gulp-cssnano'),
 	jshint = require('gulp-jshint'),
@@ -20,16 +19,13 @@ var gulp = require('gulp'),
 
 // Styles
 gulp.task('styles', function() {
-	return sass('src/styles/main.scss', {
-			style: 'expanded'
-		})
-		.pipe(autoprefixer('last 2 version'))
-		.pipe(gulp.dest('dist/styles'))
+	return autoprefixer('last 2 version')
+		.pipe(gulp.dest('client/dist/styles'))
 		.pipe(rename({
 			suffix: '.min'
 		}))
 		.pipe(cssnano())
-		.pipe(gulp.dest('dist/styles'))
+		.pipe(gulp.dest('client/dist/styles'))
 		.pipe(notify({
 			message: 'Styles task complete'
 		}));
@@ -37,16 +33,16 @@ gulp.task('styles', function() {
 
 // Scripts
 gulp.task('scripts', function() {
-	return gulp.src('src/scripts/**/*.js')
-		.pipe(jshint('.jshintrc'))
-		.pipe(jshint.reporter('default'))
-		.pipe(concat('main.js'))
-		.pipe(gulp.dest('dist/scripts'))
+	return gulp.src('client/src/scripts/**/*.js')
+		.pipe(concat('scripts.js'))
+		.pipe(gulp.dest('client/dist/scripts'))
 		.pipe(rename({
 			suffix: '.min'
 		}))
-		.pipe(uglify())
-		.pipe(gulp.dest('dist/scripts'))
+		.pipe(uglify({
+			mangle: false
+		}))
+		.pipe(gulp.dest('client/dist/scripts'))
 		.pipe(notify({
 			message: 'Scripts task complete'
 		}));
@@ -54,44 +50,45 @@ gulp.task('scripts', function() {
 
 // Images
 gulp.task('images', function() {
-	return gulp.src('src/images/**/*')
+	return gulp.src('client/src/images/**/*')
 		.pipe(cache(imagemin({
 			optimizationLevel: 3,
 			progressive: true,
 			interlaced: true
 		})))
-		.pipe(gulp.dest('dist/images'))
+		.pipe(gulp.dest('client/dist/images'))
 		.pipe(notify({
 			message: 'Images task complete'
 		}));
 });
 
+// Views
+gulp.task('views', function() {
+	return gulp.src('client/src/views/**/*.html')
+		.pipe(gulp.dest('client/dist/views/'))
+		.pipe(notify({
+			message: 'Views task complete'
+		}));
+});
+
 // Clean
 gulp.task('clean', function() {
-	return del(['dist/styles', 'dist/scripts', 'dist/images']);
+	return del(['client/dist/styles', 'client/dist/scripts', 'client/dist/images']);
 });
 
 // Default task
 gulp.task('default', ['clean'], function() {
-	gulp.start('styles', 'scripts', 'images');
+	gulp.start('styles', 'scripts', 'images', 'views');
 });
 
 // Watch
 gulp.task('watch', function() {
-
-	// Watch .scss files
-	gulp.watch('src/styles/**/*.scss', ['styles']);
-
-	// Watch .js files
-	gulp.watch('src/scripts/**/*.js', ['scripts']);
-
-	// Watch image files
-	gulp.watch('src/images/**/*', ['images']);
-
 	// Create LiveReload server
 	livereload.listen();
-
+	gulp.watch('client/src/styles/**/*.scss', ['styles']);
+	gulp.watch('client/src/scripts/**/*.js', ['scripts']);
+	gulp.watch('client/src/images/**/*', ['images']);
+	gulp.watch('client/src/views/**/*', ['views']);
 	// Watch any files in dist/, reload on change
-	gulp.watch(['dist/**']).on('change', livereload.changed);
-
+	gulp.watch(['client/dist/**']).on('change', livereload.changed);
 });
