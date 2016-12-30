@@ -1,16 +1,7 @@
 const https = require('https');
 const request = require('request');
 
-let options = {
-	protocol: 'https:',
-	host: 'kertonandrew.zendesk.com',
-	auth: 'kerton.andrew@gmail.com:398wHxebWb3F',
-	headers: {
-		'Content-Type': 'application/json'
-	}
-};
-
-let request = (path) => {
+let apiRequest = (path) => {
 	options.path = path;
 	https.get(options, (result) => {
 		const statusCode = result.statusCode;
