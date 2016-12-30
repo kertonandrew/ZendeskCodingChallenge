@@ -11,8 +11,10 @@ You'll require [Node][4] which includes npm for this install and start up.
 5.	Run ```node app.js``` to run the server.
 6.	You can now navigate to [](http://localhost:8080/) to view the web UI.
 
+If you run the ```gulp watch``` any files in the client app will but build and minify on change.
+
 ###Todo:
-- fix screen size
+
 -	pageify tickets
 -	style list
 		-	alt colours each ticket?

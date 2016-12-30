@@ -78,6 +78,7 @@ gulp.task('default', ['clean'], function() {
 
 // Watch
 gulp.task('watch', function() {
+	gulp.start('default');
 	gulp.watch('client/src/styles/**/*.css', ['styles']);
 	gulp.watch('client/src/scripts/**/*.js', ['scripts']);
 	gulp.watch('client/src/images/**/*', ['images']);
