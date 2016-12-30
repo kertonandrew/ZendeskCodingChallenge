@@ -40,6 +40,7 @@ app.use('/favicon.ico', express.static(__dirname));
 
 // JSON API
 app.get('/api/tickets', api.tickets);
+app.get('/api/ticket', api.ticket);
 
 app.get('/', (req, res) => {
 	res.sendFile(path.join(__dirname + '/index.html'));

@@ -1,5 +1,5 @@
 const https = require('https');
-let options = require('./myOptions.json');
+let options = require('./serverOptions.json');
 
 
 let apiRequest = (path, req, res) => {
@@ -47,5 +47,6 @@ exports.tickets = (req, res) => {
 };
 
 exports.ticket = (req, res) => {
-	apiRequest('/api/v2/tickets/96.json', req, res);
+	var ticketId = req.param('id');
+	apiRequest('/api/v2/tickets/'+ticketId+'.json', req, res);
 };
