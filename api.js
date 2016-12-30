@@ -1,7 +1,8 @@
 const https = require('https');
-const request = require('request');
+let options = require('./serverOptions.json');
 
-let apiRequest = (path) => {
+
+let apiRequest = (path, req, res) => {
 	options.path = path;
 	https.get(options, (result) => {
 		const statusCode = result.statusCode;
@@ -30,7 +31,7 @@ let apiRequest = (path) => {
 		result.on('end', () => {
 			try {
 				let parsedData = JSON.parse(rawData);
-				console.log(parsedData);
+				//console.log(parsedData);
 				res.send(parsedData);
 			} catch (e) {
 				console.log(e.message);
@@ -42,9 +43,9 @@ let apiRequest = (path) => {
 }
 
 exports.tickets = (req, res) => {
-	options.path = '/api/v2/tickets.json';
+	apiRequest('/api/v2/tickets.json', req, res);
 };
 
 exports.ticket = (req, res) => {
-	options.path = '/api/v2/tickets/96.json';
+	apiRequest('/api/v2/tickets/96.json', req, res);
 };

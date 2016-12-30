@@ -9,7 +9,7 @@ angular.module('ZendeskTicketViewer').controller('MainController', function($sco
 			.then((response) => {
 				$scope.tickets = response.data.tickets;
 			}, (error) => {
-				$scope.status = 'Unable to load ticket data: ' + error.statusText;
+				$scope.status = 'Unable to load tickets data: ' + error.statusText;
 			});
 	};
 
