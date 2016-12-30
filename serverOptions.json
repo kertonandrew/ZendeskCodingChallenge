@@ -1,7 +1,7 @@
 {
 	"protocol": "https:",
-	"host": "<accountname>.zendesk.com",
-	"auth": "<user_email>:<password>",
+	"host": "kertonandrew.zendesk.com",
+	"auth": "kerton.andrew@gmail.com:FrC4xVDv7G6cMiT6z",
 	"headers": {
 		"Content-Type": "application/json"
 	}
