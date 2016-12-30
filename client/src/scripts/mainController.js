@@ -3,20 +3,15 @@ angular.module('ZendeskTicketViewer').controller('MainController', function($sco
 	$scope.tickets;
 	$scope.status;
 
-	let getTickets = () => {
+	$scope.getTickets = function() {
+		$scope.status = 0;
 		TicketFactory.getTickets()
-			.then(function(response) {
+			.then((response) => {
 				$scope.tickets = response.data.tickets;
-				showTickets();
-			}, function(error) {
-				$scope.status = 'Unable to load ticket data: ' + error.message;
+			}, (error) => {
+				$scope.status = 'Unable to load ticket data: ' + error.statusText;
 			});
 	};
 
-	let showTickets = () => {
-		$(document.getElementById("loader")).addClass('hidden');
-		$(document.getElementById("tickets")).removeClass('hidden');
-	}
-
-	getTickets();
+	$scope.getTickets();
 });

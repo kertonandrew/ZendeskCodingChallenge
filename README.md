@@ -9,15 +9,15 @@ Zendesk Ticket Viewer
 4.	Run ```node server/dist/app.js``` to run the server 
 
 Todo:
-	loading symbol on pge start
-		timeout if server is unavailable
-			error message if server unavailable
+	speparate cred into json
+
+	fix api
+
+	pagify tickets
+
 	style list
 		alt colours each ticket
 		expand description on click?
-	pagify tickets
-	
-	speparate cred into json
 
 	create time format filter
 	fix livereload for client

@@ -1,6 +1,10 @@
 <div class='col-md-1'></div>
-<div id='loader' class='col-md-10'></div>
-<div id='tickets' class='col-md-10 hidden'>
+<div ng-hide="tickets || status" id='loader' class='col-md-10'></div>
+<div ng-show="status" class='col-md-10 jumbotron center'>
+	<h3 class="col-md-12">{{status}}</h3>
+	<!-- <button type="button" class="btn btn-default" on-click="getTickets()">Try again?</button> -->
+</div>
+<div ng-show="tickets" id='tickets' class='col-md-10'>
 	<ol>
 		<li ng-repeat='ticket in tickets'>
 			<div>
@@ -12,4 +16,3 @@
 	</ol>
 </div>
 <div class='col-md-1'></div>
-</div>

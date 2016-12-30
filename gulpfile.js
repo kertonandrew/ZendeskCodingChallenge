@@ -8,12 +8,12 @@ var gulp = require('gulp'),
 	concat = require('gulp-concat'),
 	notify = require('gulp-notify'),
 	cache = require('gulp-cache'),
-	livereload = require('gulp-livereload'),
 	del = require('del');
 
 // Styles
 gulp.task('styles', function() {
 	return gulp.src('client/src/styles/**/*.css')
+		.pipe(concat('styles.css'))
 		.pipe(autoprefixer('last 2 version'))
 		.pipe(gulp.dest('client/dist/styles'))
 		.pipe(rename({
@@ -78,11 +78,8 @@ gulp.task('default', ['clean'], function() {
 
 // Watch
 gulp.task('watch', function() {
-	// Create LiveReload server
-	livereload.listen();
 	gulp.watch('client/src/styles/**/*.css', ['styles']);
 	gulp.watch('client/src/scripts/**/*.js', ['scripts']);
 	gulp.watch('client/src/images/**/*', ['images']);
 	gulp.watch('client/src/views/**/*', ['views']);
-
 });

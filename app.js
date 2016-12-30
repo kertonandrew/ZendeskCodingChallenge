@@ -45,29 +45,31 @@ app.use('/scripts', express.static(__dirname + '/client/dist/scripts'));
 app.use('/images', express.static(__dirname + '/client/dist/images'));
 app.use('/styles', express.static(__dirname + '/client/dist/styles'));
 app.use('/views', express.static(__dirname + '/client/dist/views'));
+app.use('/favicon.ico', express.static(__dirname));
 
 
 // JSON API
 app.get('/api/tickets', (req, res) => {
 	options.path = '/api/v2/tickets.json';
 	https.get(options, (result) => {
-
 		const statusCode = result.statusCode;
 		const contentType = result.headers['content-type'];
 
-		let error;
+		let error = '';
 		if (statusCode !== 200) {
-			error = new Error(`Request Failed.\n` +
-				`Status Code: ${statusCode}`);
+			error = new Error('Request Failed.\n' +
+				'Status Code: ' + statusCode);
 		} else if (!/^application\/json/.test(contentType)) {
-			error = new Error(`Invalid content-type.\n` +
-				`Expected application/json but received ${contentType}`);
+			error = new Error('Invalid content-type.\n' +
+				'Expected application/json but received ' + contentType);
 		}
-		if (error) {
+
+		if (error != '') {
 			console.log(error.message);
 			// consume response data to free up memory
 			result.resume();
-			return;
+			res.statusCode = statusCode;
+			res.send(error);
 		}
 
 		result.setEncoding('utf8');
@@ -83,7 +85,7 @@ app.get('/api/tickets', (req, res) => {
 			}
 		});
 	}).on('error', (e) => {
-		console.log(`Got error: ${e.message}`);
+		console.log('Got error: ', e.message);
 	});
 });
 
@@ -94,7 +96,7 @@ app.get('/', (req, res) => {
 app.get('*', (req, res, next) => {
 	// trigger a 403 error
 	let err = new Error('Not allowed!');
-	err.status = 403;
+	err.status = 404;
 	next(err);
 });
 
