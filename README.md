@@ -7,12 +7,12 @@ You'll require [Node][4] which includes npm for this install and start up.
 1.	Open a terminal and run ```npm install``` from the root of the repo to install app dependencies.
 2.	Install Gulp globally if not already installed (```npm install -g gulp```)
 3.	Run ```gulp``` to run the default build task.
-4.	Run ```node app.js``` to run the server.
-5.	You can now navigate to [](http://localhost:8080/) to view the web UI.
-
+4.	You'll have to add your account creds to the serverOptions.json for connection authentication.
+5.	Run ```node app.js``` to run the server.
+6.	You can now navigate to [](http://localhost:8080/) to view the web UI.
 
 ###Todo:
-
+- fix screen size
 -	pageify tickets
 -	style list
 		-	alt colours each ticket?

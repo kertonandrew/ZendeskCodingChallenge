@@ -1,5 +1,5 @@
 const https = require('https');
-let options = require('./serverOptions.json');
+let options = require('./myOptions.json');
 
 
 let apiRequest = (path, req, res) => {

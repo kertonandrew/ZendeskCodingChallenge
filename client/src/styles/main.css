@@ -55,10 +55,7 @@ body, html {
   transform: translateY(-50%);
 }
 
-.container {
-	position: absolute;
-	top: 0;
-	bottom: 0;
+.full-width {
+	min-width: 100%;
 	min-height: 100%;
-  height: 100%;
 }
