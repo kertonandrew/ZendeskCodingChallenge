@@ -5,7 +5,7 @@ body, html {
   height: 100%;
 }
 
-#tickets {
+.tickets {
 	background-color: white
 }
 
@@ -45,7 +45,8 @@ body, html {
 
 .center {
 	text-align: center;
-	position: relative;
+	position: absolute;
   top: 50%;
-  transform: translateY(-50%);
+  right: 50%;
+  transform: translateY(-50%) translateX(50%) ;
 }

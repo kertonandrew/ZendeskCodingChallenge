@@ -1,11 +1,11 @@
 <div class="container">
-	<div ng-hide="ticket" class='loader' class='col-md-10 col-md-push-1'>
+	<div ng-hide="ticket || status" class='loader' class='col-md-10 col-md-push-1'>
 		<div class="loader-inner"></div>
 	</div>
 	<div ng-show="status" class='col-md-10 jumbotron center'>
 		<h3 class="col-md-12">{{status}}</h3>
 	</div>
-	<div id='tickets' ng-show='ticket'>
+	<div class='tickets' ng-show='ticket'>
 		<h3>{{ticket.subject}}</h3>
 		<p>Last updated: {{ticket.updated_at}}</p>
 		<p>{{ticket.description}}</p>

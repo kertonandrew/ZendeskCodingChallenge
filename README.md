@@ -9,16 +9,15 @@ You'll require [Node][4] which includes npm for this install and start up.
 3.	Run ```gulp``` to run the default build task.
 4.	You'll have to add your account creds to the serverOptions.json for connection authentication.
 5.	Run ```node app.js``` to run the server.
-6.	You can now navigate to [](http://localhost:8080/) to view the web UI.
+6.	You can now navigate to http://localhost:8080/ to view the web UI.
 
-If you run the ```gulp watch``` any files in the client app will but build and minify on change.
+If you run the ```gulp watch``` any files in the client app will be built and minified on change.
 
 ###Todo:
 
 -	pageify tickets
 -	style list
 		-	alt colours each ticket?
-		-	expand description on click?
 -	create time format filter
 
 

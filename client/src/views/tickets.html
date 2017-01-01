@@ -5,7 +5,7 @@
 	<div ng-show="status" class='col-md-10 jumbotron center'>
 		<h3 class="col-md-12">{{status}}</h3>
 	</div>
-	<div ng-show="tickets" id='tickets' class='col-md-12'>
+	<div ng-show="tickets" class='tickets col-md-12'>
 		<ol>
 			<li ng-repeat='ticket in tickets'>
 				<div ng-click="gotoTicket(ticket);">
