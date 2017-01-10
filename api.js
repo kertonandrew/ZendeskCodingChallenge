@@ -31,7 +31,7 @@ let apiRequest = (path, req, res) => {
 		result.on('end', () => {
 			try {
 				let parsedData = JSON.parse(rawData);
-				//console.log(parsedData);
+				console.log(parsedData);
 				res.send(parsedData);
 			} catch (e) {
 				console.log(e.message);
@@ -43,10 +43,10 @@ let apiRequest = (path, req, res) => {
 }
 
 exports.tickets = (req, res) => {
-	apiRequest('/api/v2/tickets.json', req, res);
+	apiRequest('/api/v2/tickets.json?include=users', req, res);
 };
 
 exports.ticket = (req, res) => {
 	var ticketId = req.param('id');
-	apiRequest('/api/v2/tickets/'+ticketId+'.json', req, res);
+	apiRequest('/api/v2/tickets/' + ticketId + '.json', req, res);
 };

@@ -12,6 +12,7 @@
 					<h3>{{ticket.subject}}</h3>
 					<p>Last updated: {{ticket.updated_at}}</p>
 					<p>{{ticket.description}}</p>
+					<p>{{findUser(ticket.requester_id)}}</p>
 				</div>
 			</li>
 		</ol>
